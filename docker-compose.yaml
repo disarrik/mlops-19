@@ -1,0 +1,15 @@
+services:
+  jupyterhub:
+    build: .
+    image: jupyterhub-jph:latest
+    container_name: jupyterhub
+    env_file: .env
+    environment:
+      - CONFIGPROXY_AUTH_TOKEN=${CONFIGPROXY_AUTH_TOKEN}
+      - JUPYTERHUB_COOKIE_SECRET=${JUPYTERHUB_COOKIE_SECRET}
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/srv/jupyterhub:ro
+    command: ["jupyterhub", "-f", "/srv/jupyterhub/jupyterhub_config.py"]
+    restart: unless-stopped
